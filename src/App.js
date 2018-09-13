@@ -27,6 +27,10 @@ const userService = {
   },
 };
 
+function isSearched(searchTerm) {
+  return item => item.title.toLowerCase().includes(searchTerm.toLowerCase());
+}
+   
 class App extends Component {
 
   constructor(props) {
@@ -40,16 +44,19 @@ class App extends Component {
     this.onSearchChange = this.onSearchChange.bind(this);
   }  
   
-  render() { 
+  render() {
+    const { searchTerm, list } = this.state;
     return (
         <div className="App">
           <form>
             <input
               type="text"
+              value={searchTerm}
+
               onChange={this.onSearchChange}
             />
-          </form>
-          {this.state.list.map(item =>
+          </form> 
+          {list.filter(isSearched(searchTerm)).map(item =>
             <div key={item.objectID}>
               <span>
                 <a href={item.url}>{item.title}</a>
